@@ -1,23 +1,25 @@
 import * as THREE from 'three';
 import { addMesh } from '../helpers.js';
 
-/** Charcoal mug with a red band, latte art and rising steam. Returns an updater for the steam. */
+/** Black mug with Kairo's triangle mark, latte art and rising steam. Returns an updater for the steam. */
 export function buildCoffee(scene, x, top, z) {
   const g = new THREE.Group();
   g.position.set(x, top, z);
   scene.add(g);
 
-  const ceramic = new THREE.MeshStandardMaterial({ color: '#23262f', roughness: 0.35, side: THREE.DoubleSide });
+  const ceramic = new THREE.MeshStandardMaterial({ color: '#141015', roughness: 0.35, side: THREE.DoubleSide });
   addMesh(g, new THREE.CylinderGeometry(0.075, 0.075, 0.006, 40), new THREE.MeshStandardMaterial({ color: '#3a2c24', roughness: 0.9 }), 0, 0.003, 0); // coaster
-  addMesh(g, new THREE.CylinderGeometry(0.042, 0.038, 0.1, 40, 1, true), ceramic, 0, 0.056, 0);  // wall
+  const printed = ceramic.clone();
+  printed.color.set('#ffffff');   // the map carries the colour
+  printed.map = triangleMark();
+  const wall = addMesh(g, new THREE.CylinderGeometry(0.042, 0.038, 0.1, 40, 1, true), printed, 0, 0.056, 0);
+  wall.rotation.y = 1.87;   // turns the mark toward the camera
   addMesh(g, new THREE.CylinderGeometry(0.038, 0.038, 0.004, 40), ceramic, 0, 0.008, 0);         // bottom
-  addMesh(g, new THREE.CylinderGeometry(0.0425, 0.041, 0.014, 40, 1, true),
-    new THREE.MeshStandardMaterial({ color: '#d8434a', roughness: 0.4, side: THREE.DoubleSide }), 0, 0.074, 0); // red band
   addMesh(g, new THREE.TorusGeometry(0.042, 0.0025, 8, 40), ceramic, 0, 0.106, 0).rotation.x = Math.PI / 2;    // rim
 
   const handle = addMesh(g, new THREE.TorusGeometry(0.024, 0.007, 12, 24, Math.PI), ceramic);
-  handle.rotation.set(0, -Math.PI * 0.8, -Math.PI / 2);
-  handle.position.set(-0.042 * Math.cos(Math.PI * 0.2), 0.058, 0.042 * Math.sin(Math.PI * 0.2));  // toward the camera
+  handle.rotation.set(0, 1.98, -Math.PI / 2);
+  handle.position.set(-0.017, 0.058, -0.0385);  // on his side, to the left in the camera's view
 
   const surface = addMesh(g, new THREE.CircleGeometry(0.0405, 40),
     new THREE.MeshStandardMaterial({ map: latteArt(), roughness: 0.25 }), 0, 0.096, 0);
@@ -58,6 +60,17 @@ function latteArt() {
   k.bezierCurveTo(60, 140, 70, 70, 128, 100); k.bezierCurveTo(186, 70, 196, 140, 128, 190); k.fill();   // heart
   k.strokeStyle = '#f1e2cb'; k.lineWidth = 6;
   k.beginPath(); k.moveTo(128, 196); k.lineTo(128, 226); k.stroke();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/** Thin white triangle on black, centred on the side of the mug that faces the camera. */
+function triangleMark() {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+  const k = c.getContext('2d');
+  k.fillStyle = '#141015'; k.fillRect(0, 0, 512, 128);
+  k.strokeStyle = '#e8e2e6'; k.lineWidth = 3; k.lineJoin = 'round';
+  k.beginPath(); k.moveTo(256, 44); k.lineTo(274, 80); k.lineTo(238, 80); k.closePath(); k.stroke();
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }

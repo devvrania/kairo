@@ -15,14 +15,16 @@
     "licenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow"
   },
   "theme": {
-    "background": "#0d111b",
-    "panel": "#10141e",
+    "background": "#0e0a10",
+    "panel": "#140e14",
     "text": "#e6ebf3",
     "muted": "#8e98aa",
-    "accent": "#ff5a5f",
-    "moonlight": "#cfe0ff",
-    "monitorGlow": "#9cc4ff",
-    "lampWarm": "#ffb978"
+    "accent": "#ff3b5c",
+    "cityGlow": "#e7c3e0",
+    "monitorGlow": "#cdbfff",
+    "moonLamp": "#ffa77a",
+    "neon": "#ff3b6b",
+    "blossom": "#f4a6c0"
   },
   "rig": {
     "eyeYawDeg": 16,

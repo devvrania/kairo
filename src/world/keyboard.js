@@ -1,6 +1,6 @@
 import { canvasTexture } from '../helpers.js';
 
-/** Keycaps drawn on a canvas. A pressed key flashes red and fades. */
+/** Backlit keycaps drawn on a canvas, glowing soft pink. A pressed key flashes bright and fades. */
 export function createKeycaps() {
   const { ctx, texture } = canvasTexture(840, 260);
   const keys = [];
@@ -11,12 +11,12 @@ export function createKeycaps() {
   keys.push({ x: x0 + 3.5 * (kw + gap), y: y0 + 4 * (kh + gap), w: 6.5 * (kw + gap) - gap, h: kh, glow: 0 }); // space bar
 
   function draw() {
-    ctx.fillStyle = '#1b1f29'; ctx.fillRect(0, 0, 840, 260);
+    ctx.fillStyle = '#140e12'; ctx.fillRect(0, 0, 840, 260);
     for (const k of keys) {
       const g = k.glow;
-      ctx.fillStyle = g > 0.02 ? `rgb(${Math.round(70 + 185 * g)},${Math.round(76 + 14 * g)},${Math.round(92 - 3 * g)})` : '#464c5c';
+      ctx.fillStyle = `rgb(${Math.round(150 + 105 * g)},${Math.round(98 + 120 * g)},${Math.round(118 + 112 * g)})`;
       ctx.beginPath(); ctx.roundRect(k.x, k.y, k.w, k.h, 7); ctx.fill();
-      ctx.fillStyle = 'rgba(255,255,255,0.10)'; ctx.fillRect(k.x + 5, k.y + 4, k.w - 10, 3);  // keycap highlight
+      ctx.fillStyle = 'rgba(255,230,238,0.22)'; ctx.fillRect(k.x + 5, k.y + 4, k.w - 10, 3);  // keycap highlight
     }
     texture.needsUpdate = true;
   }

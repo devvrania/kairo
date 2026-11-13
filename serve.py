@@ -34,6 +34,10 @@ class KairoHandler(http.server.SimpleHTTPRequestHandler):
     def do_HEAD(self):
         self.do_GET()
 
+    def end_headers(self):
+        self.send_header('Cache-Control', 'no-cache')   # edits show up on a normal refresh
+        super().end_headers()
+
     def guess_type(self, path):
         return TYPES.get(os.path.splitext(path)[1], super().guess_type(path))
 
