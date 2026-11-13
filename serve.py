@@ -1,9 +1,10 @@
 """Run Kairo locally: python3 serve.py  (or npm start)
 
-Serves only the files the scene needs, never folder listings or hidden files,
+Serves only the files the scene needs (index.html, kairo.json, the model and src/*.js), never folder listings or hidden files,
 and opens the browser at Kairo.
 """
 import http.server
+import re
 import os
 import socketserver
 import sys
@@ -11,7 +12,8 @@ import webbrowser
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 5180
-ALLOWED = {'/index.html', '/main.js', '/kairo.json', '/model/kairo.vrm'}
+ALLOWED = {'/index.html', '/kairo.json', '/model/kairo.vrm'}
+SRC = re.compile(r'^/src/(?:[a-z]+/)?[a-z-]+\.js$')   # the scene's modules, nothing else
 TYPES = {'.js': 'text/javascript', '.json': 'application/json', '.vrm': 'model/gltf-binary'}
 
 
@@ -23,7 +25,7 @@ class KairoHandler(http.server.SimpleHTTPRequestHandler):
         path = self.path.split('?', 1)[0].split('#', 1)[0]
         if path == '/':
             path = '/index.html'
-        if path not in ALLOWED:
+        if path not in ALLOWED and not SRC.match(path):
             self.send_error(404, 'Not found')
             return
         self.path = path
