@@ -1,0 +1,9 @@
+{
+  "name": "kairo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kairo, Rania's coding companion: VRM character and desk scene",
+  "scripts": {
+    "start": "python3 serve.py"
+  }
+}
