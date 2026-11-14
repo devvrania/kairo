@@ -12,7 +12,7 @@ import webbrowser
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 5180
-ALLOWED = {'/index.html', '/kairo.json', '/model/kairo.vrm'}
+ALLOWED = {'/index.html', '/kairo.json', '/model/kairo.vrm', '/favicon.ico', '/icon.svg', '/apple-touch-icon.png'}
 SRC = re.compile(r'^/src/(?:[a-z]+/)?[a-z-]+\.js$')   # the scene's modules, nothing else
 TYPES = {'.js': 'text/javascript', '.json': 'application/json', '.vrm': 'model/gltf-binary'}
 
